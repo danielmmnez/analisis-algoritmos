@@ -45,6 +45,7 @@ Recorre la lista de izquierda a derecha y, para cada elemento, lo desplaza hacia
 - **Adaptativo**: si la entrada llega casi ordenada, el número de desplazamientos es mínimo y el costo cae a θ(n).
 - **Riesgo**: si la entrada llega en desorden total (el caso real de este problema), el costo se dispara a θ(n²).
 - También es estable (usa `>` estricto al comparar hacia atrás), pero no se eligió como solución principal porque su rendimiento no es robusto frente al desorden de la entrada.
+
 | Algoritmo | Peor caso | Memoria extra | Adaptativo | Estable | Uso ideal |
 |---|---|---|---|---|---|
 | Merge Sort | θ(n log n) | θ(n) | No | Sí | Lotes masivos y desordenados desde cero |
