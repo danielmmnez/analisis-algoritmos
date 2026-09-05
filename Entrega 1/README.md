@@ -1,7 +1,7 @@
 # Priorización de declaraciones DIAN mediante ordenamiento
  
 Examen 1 — Análisis de Algoritmos
-Opción 2: Presentación explicando un algoritmo de ordenamiento y su aplicación a un problema real.
+Opción 2: Presentación explicando un algoritmo de ordenamiento y su aplicación a un problema.
  
 ## Descripción del problema
  
@@ -29,3 +29,27 @@ Merge Sort sigue la estrategia de **divide y vencerás**, en dos pasos:
 1. **Dividir**: la lista se parte recursivamente por la mitad, ignorando por completo el desorden inicial, hasta llegar a sublistas de un solo elemento (trivialmente ordenadas).
 2. **Fusionar**: las sublistas ya ordenadas se combinan en una sola, comparando en cada paso únicamente los elementos al frente de cada sublista — el menor de los dos pasa primero al resultado.
 **Complejidad**: cada división genera un nivel nuevo en el árbol de recursión, y como siempre se parte por la mitad, hay `log₂ n` niveles. En cada nivel, fusionar recorre los `n` elementos completos, es decir, cuesta O(n). Multiplicando niveles por costo por nivel se obtiene θ(n log n) — igual en el mejor, peor y caso promedio, porque el paso de dividir no depende del orden de la entrada.
+
+**Estabilidad**: la clave está en la comparación durante la fusión:
+ 
+```python
+if izquierda[i].fecha_limite <= derecha[j].fecha_limite:
+```
+ 
+El operador es `<=` (menor o igual), no `<` estricto. Cuando hay empate, esta condición se cumple y se toma primero el elemento de la mitad **izquierda**, que es la que contiene los elementos que llegaron antes en la lista original. Ese es el detalle que hace estable al algoritmo.
+ 
+### Insertion Sort (comparación)
+ 
+Recorre la lista de izquierda a derecha y, para cada elemento, lo desplaza hacia atrás hasta encontrar su posición correcta dentro del segmento ya ordenado.
+ 
+- **Adaptativo**: si la entrada llega casi ordenada, el número de desplazamientos es mínimo y el costo cae a θ(n).
+- **Riesgo**: si la entrada llega en desorden total (el caso real de este problema), el costo se dispara a θ(n²).
+- También es estable (usa `>` estricto al comparar hacia atrás), pero no se eligió como solución principal porque su rendimiento no es robusto frente al desorden de la entrada.
+| Algoritmo | Peor caso | Memoria extra | Adaptativo | Estable | Uso ideal |
+|---|---|---|---|---|---|
+| Merge Sort | θ(n log n) | θ(n) | No | Sí | Lotes masivos y desordenados desde cero |
+| Insertion Sort | θ(n²) | O(1) | Sí (mejor: θ(n)) | Sí | Insertar un cliente rezagado en una lista ya procesada |
+
+## Video de sustentación
+ 
+[Sustentación](https://correoitmedu-my.sharepoint.com/:v:/g/personal/martinzapata319040_correo_itm_edu_co/IQAcZXWzu3TtSYLQ-sVFl_WcAR3_-SVVY9ioVxw4wi5jbmY?e=pTmXYR&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D)
