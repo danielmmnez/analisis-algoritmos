@@ -68,13 +68,59 @@ def insertion_sort(clientes: list[Cliente]) -> list[Cliente]:
  
     insertion_sort.comparaciones = comparaciones
     return lista
+
+# ---------------------------------------------------------------------------
+# Merge Sort
+# ---------------------------------------------------------------------------
+# Idea: dividir la lista a la mitad recursivamente hasta llegar a listas
+# de un solo elemento (trivialmente ordenadas), y luego fusionar ("merge")
+# las mitades ya ordenadas en una sola lista ordenada.
+#
+# No es adaptativo: su costo no depende del orden de entrada, siempre
+# divide y fusiona de la misma manera. Por eso es la opción robusta cuando
+# el reporte se genera desde cero con datos de origen desordenado.
+#
+# Complejidad: mejor caso θ(n log n) | promedio θ(n log n) | peor caso θ(n log n)
+# Costo extra: θ(n) de memoria auxiliar para la fusión.
+ 
+def merge_sort(clientes: list[Cliente]) -> list[Cliente]:
+    if len(clientes) <= 1:
+        return clientes
+ 
+    mitad = len(clientes) // 2
+    izquierda = merge_sort(clientes[:mitad])
+    derecha = merge_sort(clientes[mitad:])
+ 
+    return _fusionar(izquierda, derecha)
+ 
+ 
+def _fusionar(izquierda: list[Cliente], derecha: list[Cliente]) -> list[Cliente]:
+    resultado: list[Cliente] = []
+    i = j = 0
+ 
+    while i < len(izquierda) and j < len(derecha):
+        # "<=" en vez de "<": si hay empate, tomamos primero el elemento
+        # de la mitad IZQUIERDA, que es la que apareció antes en la lista
+        # original. Esa elección es lo que hace estable al algoritmo.
+        if izquierda[i].fecha_limite <= derecha[j].fecha_limite:
+            resultado.append(izquierda[i])
+            i += 1
+        else:
+            resultado.append(derecha[j])
+            j += 1
+ 
+    resultado.extend(izquierda[i:])
+    resultado.extend(derecha[j:])
+    return resultado
  
  
 # ---------------------------------------------------------------------------
-# Demostración aislada
+# Demostración
 # ---------------------------------------------------------------------------
  
 if __name__ == "__main__":
+    # orden_llegada se asigna según la posición en la lista de entrada,
+    # simulando el orden real en que cada cliente entregó sus documentos.
     nombres_y_fechas = [
         ("Cliente A", date(2026, 9, 15)),
         ("Cliente B", date(2026, 9, 10)),
@@ -88,8 +134,19 @@ if __name__ == "__main__":
  
     print("Lista original (orden de llegada):")
     print(clientes)
+
+    ordenado_merge = merge_sort(clientes)
+    print("\nOrdenada con Merge Sort (por fecha_limite):")
+    print(ordenado_merge)
  
     ordenado_insertion = insertion_sort(clientes)
     print("\nOrdenada con Insertion Sort (por fecha_limite):")
     print(ordenado_insertion)
     print(f"Comparaciones realizadas: {insertion_sort.comparaciones}")
+
+    # Verificación explícita del desempate: entre los clientes con la
+    # misma fecha_limite, orden_llegada debe quedar en orden ascendente.
+    empatados = [c for c in ordenado_merge if c.fecha_limite == date(2026, 9, 10)]
+    ordenes = [c.orden_llegada for c in empatados]
+    assert ordenes == sorted(ordenes), "El desempate por orden de llegada se perdió"
+    print(f"\nDesempate verificado: entre los empatados, quedaron en orden de llegada {ordenes}")
