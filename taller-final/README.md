@@ -27,3 +27,13 @@
 - **Complejidad:** Tiempo `Θ(n)` (una sola pasada sobre el circuito) y Espacio extra `Θ(1)`, donde `n = gas.length`.
 
 ![Accepted — Gas Station](evidencias/gas-station-accepted.png)
+
+## 79. Word Search
+
+- **Problema:** [79. Word Search](https://leetcode.com/problems/word-search/)
+- **Autor:**  (`danielmmnez`)
+- **Familia:** Backtracking
+- **Idea:** El estado es `(r, c, k)` (celda actual en la grilla e índice de la letra buscada en `word`). Cuando `board[r][c] == word[k]`, **elegimos** la celda marcándola temporalmente con `'#'` para evitar reusarla en el mismo camino y exploramos recursivamente sus 4 vecinos ortogonales para `k + 1`. Si la rama fracasa, **deshacemos** la elección restaurando el carácter original en `board[r][c]` antes de retroceder.
+- **Complejidad:** Tiempo `O(m · n · 4^L)` en el peor caso y Espacio `O(L)` por la profundidad de la pila de recursión, donde `m × n` son las dimensiones de la grilla y `L = word.length`.
+
+![Accepted — Word Search](evidencias/word-search-accepted.png)
