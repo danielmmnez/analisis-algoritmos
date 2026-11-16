@@ -21,11 +21,20 @@
 ## 743. Network Delay Time
  
 - **Problema:** [743. Network Delay Time](https://leetcode.com/problems/network-delay-time/)
-- **Autor:** (`Martin Zapata`)
+- **Autor:** Martin Zapata (`Suprimirx`)
 - **Familia:** Grafos (Dijkstra)
 - **Idea:** Modelamos la red como un grafo **dirigido y ponderado** con lista de adyacencia: los vértices son los nodos `1…n` y cada arco `u → v` pesa `w` (el tiempo de la señal). Ejecutamos Dijkstra desde `k` con un min-heap (`PriorityQueue`) de distancia tentativa: extraemos el nodo de menor tiempo acumulado, que al ser los pesos no negativos ya no puede mejorar, y relajamos sus arcos (`dist[u] + w < dist[v]`). Como el heap no tiene *decrease-key*, insertamos una entrada nueva en cada mejora e ignoramos las entradas obsoletas al extraerlas. La respuesta es la **mayor** distancia finita, porque hay que esperar al nodo que más tarda; si algún nodo queda en infinito devolvemos `-1`. No usamos BFS porque los arcos no pesan lo mismo, ni Floyd–Warshall porque hay un solo origen.
 - **Complejidad:** Tiempo `O((n + m) log n)` y Espacio `O(n + m)`, donde `n` es el número de nodos y `m = times.length` el número de arcos.
 ![Accepted — Network Delay Time](evidencias/network-delay-time-accepted.jpeg)
+
+## 1584. Min Cost to Connect All Points
+ 
+- **Problema:** [1584. Min Cost to Connect All Points](https://leetcode.com/problems/min-cost-to-connect-all-points/)
+- **Autor:** Martin Zapata (`Suprimirx`)
+- **Familia:** Grafos (árbol de recubrimiento mínimo, **Kruskal**)
+- **Idea:** Modelamos los puntos como vértices de un grafo **completo, no dirigido y ponderado**, donde el peso de cada pareja es la distancia de Manhattan `|x₁ − x₂| + |y₁ − y₂|`. No hay origen: se minimiza la suma de las aristas de un árbol que conecte a todos. Generamos las `n(n−1)/2` aristas, las ordenamos por peso y las recorremos con **Union-Find** (compresión de caminos y unión por rango): si los extremos están en componentes distintas, unimos y sumamos el peso; si ya están en la misma, la arista cierra un ciclo y se rechaza. Nos detenemos al aceptar `n − 1` aristas, que es el tamaño de un árbol de `n` vértices.
+- **Complejidad:** Tiempo `O(n² log n)` (hay `Θ(n²)` aristas y el ordenamiento domina; Union-Find aporta un factor casi constante por operación) y Espacio `O(n²)` por la lista de aristas, donde `n = points.length`.
+![Accepted — Min Cost to Connect All Points](evidencias/min-cost-to-connect-all-points-accepted.png)
 
 ## 134. Gas Station
 
