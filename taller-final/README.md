@@ -46,6 +46,16 @@
 
 ![Accepted — Edit Distance](evidencias/edit-distance-accepted.png)
 
+## 300. Longest Increasing Subsequence
+
+- **Problema:** [300. Longest Increasing Subsequence](https://leetcode.com/problems/longest-increasing-subsequence/)
+- **Autor:** Martin Zapata (`Suprimirx`)
+- **Familia:** Programación dinámica
+- **Idea:** **Estado:** `dp[i]` es la longitud de la subsecuencia estrictamente creciente más larga que **termina** en el índice `i`. **Base:** `dp[i] = 1` (el elemento solo). **Recurrencia:** `dp[i] = max(dp[i], 1 + dp[j])` para todo `j < i` con `nums[j] < nums[i]`. La respuesta es el **máximo** de `dp`, porque la LIS más larga puede no terminar en el último elemento. No ordenamos el arreglo, ya que eso destruye qué índices pueden usarse juntos.
+- **Complejidad:** Tiempo `Θ(n²)` y Espacio `Θ(n)`, donde `n = nums.length`.
+
+![Accepted — Longest Increasing Subsequence](evidencias/longest-increasing-subsequence-accepted.png)
+
 ## 134. Gas Station
 
 - **Problema:** [134. Gas Station](https://leetcode.com/problems/gas-station/)
