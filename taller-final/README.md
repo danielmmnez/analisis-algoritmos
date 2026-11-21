@@ -36,6 +36,16 @@
 - **Complejidad:** Tiempo `O(n² log n)` (hay `Θ(n²)` aristas y el ordenamiento domina; Union-Find aporta un factor casi constante por operación) y Espacio `O(n²)` por la lista de aristas, donde `n = points.length`.
 ![Accepted — Min Cost to Connect All Points](evidencias/min-cost-to-connect-all-points-accepted.png)
 
+## 72. Edit Distance
+
+- **Problema:** [72. Edit Distance](https://leetcode.com/problems/edit-distance/)
+- **Autor:** Martin Zapata (`Suprimirx`)
+- **Familia:** Programación dinámica
+- **Idea:** Tabla de Wagner–Fischer. **Estado:** `dp[i][j]` es el mínimo de ediciones para convertir `word1[0..i)` en `word2[0..j)`. **Base:** `dp[i][0] = i` (borrar `i` letras) y `dp[0][j] = j` (insertar `j` letras). **Recurrencia:** si `word1[i-1] == word2[j-1]`, `dp[i][j] = dp[i-1][j-1]`; si no, `dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])`, que corresponden a borrar, insertar y sustituir. La respuesta es `dp[n][m]`. No usamos greedy porque una elección local no ve el resto de las cadenas, y a diferencia de LCS aquí se minimiza el número de ediciones.
+- **Complejidad:** Tiempo `Θ(n · m)` y Espacio `Θ(n · m)`, donde `n = word1.length` y `m = word2.length`.
+
+![Accepted — Edit Distance](evidencias/edit-distance-accepted.png)
+
 ## 134. Gas Station
 
 - **Problema:** [134. Gas Station](https://leetcode.com/problems/gas-station/)
